@@ -66,7 +66,7 @@ export default class Login extends Component {
           AsyncStorage.setItem('isloading', 'true');
           this.setState({isloading: true});
           Actions.homePage();
-        } else if (user.username === '' || user.pwd === '') {
+        } else if (this.state.username === '' || this.state.pwd === '') {
           ToastAndroid.show('请输入账号密码', ToastAndroid.SHORT);
           AsyncStorage.setItem('isloading', 'false');
         } else {
