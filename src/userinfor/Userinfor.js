@@ -7,10 +7,13 @@ import {
   FlatList,
   TouchableOpacity,
   AsyncStorage,
+  Dimensions,
+  ScrollView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-picker';
 import {Actions} from 'react-native-router-flux';
+const {width} = Dimensions.get('window');
 const goods = [
   {
     title: '账户管理',
@@ -106,87 +109,90 @@ export default class Userinfor extends Component {
   };
   render() {
     return (
-      <View>
-        <View style={styles.header}>
-          <View style={styles.box}>
-            <TouchableOpacity
-              onPress={() => {
-                this.takephoto();
-              }}>
-              <Image
-                style={{width: 103, height: 107, borderRadius: 50}}
-                source={this.state.imageUrl}
-              />
-            </TouchableOpacity>
-            <Text style={{fontSize: 20, marginTop: 20, color: '#fff'}}>
-              BINNU DHILLON
-            </Text>
-          </View>
-        </View>
-        <View style={styles.box1}>
-          <Icon size={15} name="street-view" style={{marginTop: 2}} />
-          <Text style={{fontSize: 15, marginLeft: 20, color: '#333'}}>
-            我的个人中心
-          </Text>
-        </View>
-        <FlatList
-          style={{backgroundColor: '#fff', marginTop: 10}}
-          data={goods}
-          numColumns={3}
-          renderItem={({item}) => (
-            <View style={styles.good}>
-              <Icon size={15} name={item.img} />
-              <Text style={{marginTop: 10, fontSize: 15, color: '#333'}}>
-                {item.title}
+      <ScrollView>
+        <View>
+          <View style={styles.header}>
+            <View style={styles.box}>
+              <TouchableOpacity
+                onPress={() => {
+                  this.takephoto();
+                }}>
+                <Image
+                  style={{width: 103, height: 107, borderRadius: 50}}
+                  source={this.state.imageUrl}
+                />
+              </TouchableOpacity>
+              <Text style={{fontSize: 20, marginTop: 20, color: '#fff'}}>
+                BINNU DHILLON
               </Text>
             </View>
-          )}
-        />
-        <View style={styles.box1}>
-          <Icon size={15} name="bookmark-o" style={{marginTop: 2}} />
-          <Text style={{fontSize: 15, marginLeft: 20, color: '#333'}}>
-            E族活动
-          </Text>
-        </View>
-        <FlatList
-          style={{backgroundColor: '#fff', marginTop: 10}}
-          data={goods1}
-          numColumns={3}
-          renderItem={({item, index}) => (
-            <TouchableOpacity
-              style={styles.good}
-              onPress={() => {
-                if (index === 5) {
-                  Actions.publish();
-                }
-              }}>
-              <Icon size={15} name={item.img} />
-              <Text style={{marginTop: 10, fontSize: 15, color: '#444'}}>
-                {item.title}
-              </Text>
-            </TouchableOpacity>
-          )}
-        />
-        <View
-          style={{
-            marginTop: 10,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <TouchableOpacity
-            onPress={() => {
-              AsyncStorage.setItem('isloading', 'false');
-              Actions.login();
+          </View>
+          <View style={styles.box1}>
+            <Icon size={15} name="street-view" style={{marginTop: 2}} />
+            <Text style={{fontSize: 15, marginLeft: 20, color: '#333'}}>
+              我的个人中心
+            </Text>
+          </View>
+          <FlatList
+            style={{backgroundColor: '#fff', marginTop: 10}}
+            data={goods}
+            numColumns={3}
+            renderItem={({item}) => (
+              <View style={styles.good}>
+                <Icon size={15} name={item.img} />
+                <Text style={{marginTop: 10, fontSize: 15, color: '#333'}}>
+                  {item.title}
+                </Text>
+              </View>
+            )}
+          />
+          <View style={styles.box1}>
+            <Icon size={15} name="bookmark-o" style={{marginTop: 2}} />
+            <Text style={{fontSize: 15, marginLeft: 20, color: '#333'}}>
+              E族活动
+            </Text>
+          </View>
+          <FlatList
+            style={{backgroundColor: '#fff', marginTop: 10}}
+            data={goods1}
+            numColumns={3}
+            renderItem={({item, index}) => (
+              <TouchableOpacity
+                style={styles.good}
+                onPress={() => {
+                  if (index === 5) {
+                    Actions.publish();
+                  }
+                }}>
+                <Icon size={15} name={item.img} />
+                <Text style={{marginTop: 10, fontSize: 15, color: '#444'}}>
+                  {item.title}
+                </Text>
+              </TouchableOpacity>
+            )}
+          />
+          <View
+            style={{
+              marginTop: 10,
+              justifyContent: 'center',
+              alignItems: 'center',
             }}>
-            <Text style={{color: '#f23030'}}>退出登录</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                AsyncStorage.setItem('isloading', 'false');
+                Actions.login();
+              }}>
+              <Text style={{color: '#f23030'}}>退出登录</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
 const styles = StyleSheet.create({
   header: {
+    width: width,
     backgroundColor: '#f23030',
     justifyContent: 'center',
     height: 250,

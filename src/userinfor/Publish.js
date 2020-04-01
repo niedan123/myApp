@@ -6,10 +6,12 @@ import {
   StyleSheet,
   ToastAndroid,
   TouchableOpacity,
-  Alert,
+  ScrollView,
+  Dimensions,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Actions} from 'react-native-router-flux';
+const {width} = Dimensions.get('window');
 export default class Publish extends Component {
   constructor() {
     super();
@@ -50,98 +52,102 @@ export default class Publish extends Component {
   response = () => {
     let rannum = parseInt(Math.random() * 2);
     if (rannum == 1) {
-      return <Text style={{color: 'red'}}>已回复</Text>;
+      return <Text style={{color: 'red', fontSize: 15}}>已回复</Text>;
     } else {
-      return <Text>待回复</Text>;
+      return <Text style={{fontSize: 15}}>待回复</Text>;
     }
   };
   render() {
     return (
-      <View>
-        <View style={styles.header}>
-          <Icon
-            style={{marginLeft: 15}}
-            onPress={() => {
-              Actions.pop();
-            }}
-            size={20}
-            color="#fff"
-            name="chevron-left"
-          />
-          <Text style={styles.title}>我的发布</Text>
-          <Icon
-            style={{marginLeft: 160}}
-            size={20}
-            color="#fff"
-            name="ellipsis-h"
-          />
-        </View>
+      <ScrollView style={{width: width}}>
         <View>
-          {/* 状态栏 */}
-          {this.state.tits.map(item => (
-            <View style={styles.list}>
-              <Text numberOfLines={2} style={{fontSize: 17, width: 290}}>
-                {item.title
-                  ? item.title.length > 15
-                    ? item.title.substr(0, 15) + '...'
-                    : item.title
-                  : ''}
-              </Text>
-              <Text style={{fontSize: 17, width: 120}}>
-                {item.create_at.substr(0, 10)}
-              </Text>
-              {this.response()}
+          <View style={styles.header}>
+            <Icon
+              style={{marginLeft: width * 0.03125}}
+              onPress={() => {
+                Actions.pop();
+              }}
+              size={17}
+              color="#fff"
+              name="chevron-left"
+            />
+            <Text style={styles.title}>我的发布</Text>
+            <Icon
+              style={{marginLeft: width * 0.32}}
+              size={17}
+              color="#fff"
+              name="ellipsis-h"
+            />
+          </View>
+          <View style={{width: width}}>
+            {/* 状态栏 */}
+            {this.state.tits.map(item => (
+              <View style={styles.list}>
+                <Text style={{fontSize: 15, width: width * 0.6, marginLeft: 5}}>
+                  {item.title
+                    ? item.title.length > 15
+                      ? item.title.substr(0, 15) + '...'
+                      : item.title
+                    : ''}
+                </Text>
+                <Text style={{fontSize: 15, width: width * 0.25}}>
+                  {item.create_at.substr(0, 10)}
+                </Text>
+                {this.response()}
+              </View>
+            ))}
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <TouchableOpacity>
+                <Text
+                  style={styles.btn}
+                  onPress={() => {
+                    if (this.state.page > 1) {
+                      this.pre();
+                    } else {
+                      ToastAndroid.show('当前已处于第一页', ToastAndroid.SHORT);
+                    }
+                  }}>
+                  上一页
+                </Text>
+              </TouchableOpacity>
+              <Text style={styles.text}>第{this.state.page}页</Text>
+              <TouchableOpacity>
+                <Text
+                  style={styles.btn}
+                  onPress={() => {
+                    this.later();
+                  }}>
+                  下一页
+                </Text>
+              </TouchableOpacity>
             </View>
-          ))}
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <TouchableOpacity>
-              <Text
-                style={styles.btn}
-                onPress={() => {
-                  if (this.state.page > 1) {
-                    this.pre();
-                  } else {
-                    ToastAndroid.show('当前已处于第一页', ToastAndroid.SHORT);
-                  }
-                }}>
-                上一页
-              </Text>
-            </TouchableOpacity>
-            <Text style={styles.text}>第{this.state.page}页</Text>
-            <TouchableOpacity>
-              <Text
-                style={styles.btn}
-                onPress={() => {
-                  this.later();
-                }}>
-                下一页
-              </Text>
-            </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
 const styles = StyleSheet.create({
   header: {
+    width: width,
     backgroundColor: '#f23030',
     flexDirection: 'row',
     alignItems: 'center',
     height: 50,
   },
   title: {
-    marginLeft: 170,
+    marginLeft: width * 0.35,
     color: '#fff',
-    fontSize: 20,
+    fontSize: 17,
   },
   list: {
     height: 50,
     flexDirection: 'row',
     alignItems: 'center',
+    width: width,
   },
   btn: {
-    width: 120,
+    width: width * 0.25,
     backgroundColor: 'red',
     height: 40,
     borderRadius: 30,
@@ -153,7 +159,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-    width: 150,
+    width: width * 0.3,
     height: 40,
     textAlign: 'center',
     textAlignVertical: 'center',

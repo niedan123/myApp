@@ -125,7 +125,12 @@ const App = () => {
                     />
                   )}>
                   <Scene key="个人中心" component={Userinfor} />
-                  <Scene hideNavBar key="publish" component={Publish} />
+                  <Scene
+                    hideTabBar
+                    hideNavBar
+                    key="publish"
+                    component={Publish}
+                  />
                 </Scene>
               </Tabs>
             </Scene>
